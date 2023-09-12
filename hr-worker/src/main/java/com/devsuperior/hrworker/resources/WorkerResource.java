@@ -36,6 +36,13 @@ public class WorkerResource {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Worker> findById(@PathVariable final Long id) {
 
+		// TimeOut test for
+		// resilience4j.timelimiter.instances.backendA.timeout-duration=2s
+		/*
+		 * try { Thread.sleep(3000L); } catch (final InterruptedException e) {
+		 * e.printStackTrace(); }
+		 */
+
 		WorkerResource.logger.info("PORT = " + this.env.getProperty("local.server.port"));
 
 		final Worker obj = this.repository.findById(id).get();
