@@ -24,7 +24,7 @@ public class WorkerResource {
 
 	private static Logger logger = LoggerFactory.getLogger(WorkerRepository.class);
 
-	@Value("${test.config}")
+	@Value("${spring.profiles.active}")
 	private String testConfig;
 
 	@Autowired
