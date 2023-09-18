@@ -14,6 +14,10 @@ spring:
         uri: lb://HR-PAYROLL
         predicates:
         - Path=/hr-payroll/**
+      - id: hr-user
+        uri: lb://HR-USER
+        predicates:
+        - Path=/hr-user/**
       discovery:
         locator:
           enabled: true
