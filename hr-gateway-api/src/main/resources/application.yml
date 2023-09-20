@@ -18,6 +18,10 @@ spring:
         uri: lb://HR-USER
         predicates:
         - Path=/hr-user/**
+      - id: hr-oauth
+        uri: lb:// HR-OAUTH
+        predicates:
+        - Path=/hr-oauth/**
       discovery:
         locator:
           enabled: true
