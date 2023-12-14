@@ -1,6 +1,7 @@
 package com.devsuperior.hroauth.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,6 +16,12 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+
+	@Value("${oauth.client.name}")
+	private String clientName;
+
+	@Value("${oauth.client.secret}")
+	private String clientSecret;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -34,15 +41,24 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	}
 
 	@Override
+	// @formatter:off
 	public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient("myappname123").secret(this.passwordEncoder.encode("myappsecret123"))
-				.scopes("read", "write").authorizedGrantTypes("password").accessTokenValiditySeconds(86400);
+		clients.inMemory()
+		.withClient(this.clientName)
+		.secret(this.passwordEncoder.encode(this.clientSecret))
+		.scopes("read", "write")
+		.authorizedGrantTypes("password")
+		.accessTokenValiditySeconds(86400);
 	}
+	// @formatter:on
 
 	@Override
+	// @formatter:off
 	public void configure(final AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-		endpoints.authenticationManager(this.authenticationManager).tokenStore(this.tokenStore)
-				.accessTokenConverter(this.accessTokenConverter);
+		endpoints.authenticationManager(this.authenticationManager)
+		.tokenStore(this.tokenStore)
+		.accessTokenConverter(this.accessTokenConverter);
 	}
+	// @formatter:on
 
 }

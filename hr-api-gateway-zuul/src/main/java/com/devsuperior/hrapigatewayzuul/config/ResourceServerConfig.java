@@ -20,7 +20,15 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	private static final String[] OPERATOR = { "/hr-worker/**" };
 
-	private static final String[] ADMIN = { "/hr-payroll/**", "/hr-user/**" };
+	// @formatter:off
+	private static final String[] ADMIN = {
+			"/hr-payroll/**"
+			, "/hr-user/**"
+			, "/actuator/**"
+			, "/hr-worker/actuator/**"
+			, "/hr-oauth/actuator/**"
+			};
+	// @formatter:on
 
 	@Override
 	public void configure(final ResourceServerSecurityConfigurer resources) throws Exception {
@@ -28,10 +36,18 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	}
 
 	@Override
+	// @formatter:off
 	public void configure(final HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers(ResourceServerConfig.PUBLIC).permitAll()
-				.antMatchers(HttpMethod.GET, ResourceServerConfig.OPERATOR).hasAnyRole("OPERATOR", "ADMIN")
-				.antMatchers(ResourceServerConfig.ADMIN).hasRole("ADMIN").anyRequest().authenticated();
+		http.authorizeRequests()
+		.antMatchers(ResourceServerConfig.PUBLIC)
+		.permitAll()
+		.antMatchers(HttpMethod.GET, ResourceServerConfig.OPERATOR)
+		.hasAnyRole("OPERATOR", "ADMIN")
+		.antMatchers(ResourceServerConfig.ADMIN)
+		.hasRole("ADMIN")
+		.anyRequest()
+		.authenticated();
 	}
+	// @formatter:on
 
 }
