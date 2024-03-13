@@ -149,3 +149,17 @@ Acompanhar logs do container em execução
 ```
 docker logs -f <container-id>
 ```
+
+## Solução de problemas
+
+### "In the default daemon configuration on Windows, the docker client must be run elevated to connect"
+
+1. Run Docker Desktop application
+
+Problema persiste
+
+2. Open Powershell as administrator
+3. Launch command: 
+```
+& 'C:\Program Files\Docker\Docker\DockerCli.exe' -SwitchDaemon
+```
